@@ -1,166 +1,456 @@
-step 1 git clone "repourl";
-step 2 npm install
-step 3 npm run dev
+# 🛒 E-Commerce API Platform
 
+نظام تجارة إلكترونية متكامل مبني على Node.js و Express مع MongoDB، يوفر واجهة برمجة تطبيقات RESTful لإدارة المنتجات، الطلبات، المستخدمين، والمزيد.
 
+## 📋 المحتويات
 
-    PRODUCT - ROUTES
+- [المميزات](#المميزات)
+- [التقنيات المستخدمة](#التقنيات-المستخدمة)
+- [المتطلبات](#المتطلبات)
+- [التثبيت](#التثبيت)
+- [التشغيل](#التشغيل)
+- [متغيرات البيئة](#متغيرات-البيئة)
+- [بنية المشروع](#بنية-المشروع)
+- [واجهات برمجة التطبيقات](#واجهات-برمجة-التطبيقات)
+- [الأمان](#الأمان)
+- [الاختبارات](#الاختبارات)
+- [التوثيق](#التوثيق)
 
-GET || http://localhost:3000/api/products
-Returns all products.
+## ✨ المميزات
 
-GET || http://localhost:3000/api/products/id/:id
-** Pass in params ID = a product ID
-** e.g: 62316b69af6a67376456cfcd .
-And should return the product by ID
+- **إدارة المستخدمين**: تسجيل، تسجيل دخول، إدارة الأدوار (admin, client, moderator)
+- **المصادقة**: JWT Token authentication + Google OAuth
+- **إدارة المنتجات**: إنشاء، تحديث، حذف، بحث، تصفية، ترقيم صفحات
+- **إدارة الفئات**: تنظيم المنتجات في فئات
+- **إدارة الطلبات**: إنشاء الطلبات، تتبع الحالة، الدفع عبر Stripe
+- **التقييمات**: نظام تقييم المنتجات من قبل المستخدمين
+- **النشرة البريدية**: إدارة الاشتراكات وإرسال النشرات
+- **الأمان**: Rate limiting, Helmet, CORS, Sanitization
+- **التخزين المؤقت**: Node-cache لتحسين الأداء
+- **التحقق من البيانات**: Joi و express-validator
 
-GET || http://localhost:3000/api/products/name/:name
-** Pass in params name = a product name
-** e.g: ... .
-And should return the product by name
+## 🛠 التقنيات المستخدمة
 
-// GET || http://localhost:3000/api/products/brands
-Return all brands 
+### Backend
+- **Node.js** - بيئة التشغيل
+- **Express.js** - إطار عمل الويب
+- **MongoDB** - قاعدة البيانات
+- **Mongoose** - ODM لـ MongoDB
 
+### الأمان
+- **Helmet** - حماية HTTP headers
+- **bcrypt** - تشفير كلمات المرور
+- **jsonwebtoken** - JWT authentication
+- **express-rate-limit** - الحد من الطلبات
+- **sanitize-html** - تنظيف HTML من XSS
+- **express-jwt** - التحقق من JWT
 
-POST || http://localhost:3000/api/products/create
-Body should contain {
-	"sku": "", 
-    "name": "",
-    "description": "",
-    "price": 0,
-    "isOnStock": true,
-	"quantity": 0,
-	"img": "noimage",
-	"category": 
-}
---if the product is a t-shirt an sku could be TS0001, TS --> T-Shirt 0001 the article number
---img for the moment is a link or should be... xd
-These are props that will be modified by the time.
+### الدفع والمصادقة
+- **Stripe** - معالجة المدفوعات
+- **google-auth-library** - Google OAuth
 
-DELETE || http://localhost:3000/api/products/delete/:id
-** Pass in params ID = a product ID
-** e.g: 62316b69af6a67376456cfcd .
+### الأدوات الأخرى
+- **nodemailer** - إرسال البريد الإلكتروني
+- **morgan** - تسجيل الطلبات
+- **dotenv** - إدارة متغيرات البيئة
+- **cors** - Cross-Origin Resource Sharing
+- **joi** - التحقق من البيانات
 
+## 📦 المتتطلبات
 
-// PUT || http://localhost:3000/api/products/update/:id
-productRouter.put('/update/:id', updateProduct)
+- Node.js (v14 أو أحدث)
+- MongoDB (v4.4 أو أحدث)
+- npm أو yarn
 
+## 🚀 التثبيت
 
+1. **استنساخ المشروع**
+```bash
+git clone <repository-url>
+cd e-commercePF
+```
 
-PAGINADO
-// GET || http://localhost:3000/api/products/forPage
-productRouter.get('/forPage', getProductsforpage)
-para hacer pruebas se muestra 3 productos por pagina 
-recibe por query el numero de la pagina actual (...?page=2)
+2. **تثبيت المكتبات**
+```bash
+npm install
+```
 
+3. **إعداد متغيرات البيئة**
+```bash
+cp .env.example .env
+# قم بتعديل ملف .env بإعداداتك
+```
 
+## ▶️ التشغيل
 
+### وضع التطوير
+```bash
+npm run dev
+```
 
+### وضع الإنتاج
+```bash
+npm start
+```
 
+الخادم سيعمل على المنفذ 3000 (أو المنفذ المحدد في متغير PORT)
 
-    CATEGORIES - ROUTES
+## 🔧 متغيرات البيئة
 
-GET || http://localhost:3000/api/categories
-We get all categories ---> In future array with products will appear with their info :D
+أنشئ ملف `.env` في جذر المشروع وأضف المتغيرات التالية:
 
-GET || http://localhost:3000/api/categories/:name
+```env
+# Server
+PORT=3000
+NODE_ENV=development
+CLIENT_URL=http://localhost:3000
 
-name = T-Shirt e.g
+# Database
+MONGO_DB_URL=mongodb://localhost:27017/ecommerce
 
-POST || http://localhost:3000/api/categories/create
+# JWT
+SECRET_KEY=your-secret-key-here
+RESET_PASSWORD_KEY=your-reset-password-key-here
 
-Body should be like this: {
-    name: "categoryNameToAdd"
-}
+# Google OAuth
+AUTH_GOOGLE_CLIENT=your-google-client-id
 
-DELETE || http://localhost:3000/api/categories/delete/:name
+# Stripe
+STRIPE_SECRET_KEY=your-stripe-secret-key
 
-name = Pants e.g and category will be deleted. Products inside won't be deleted. That's is the function of another request.
+# Email
+EMAIL_USER=your-email@example.com
+EMAIL_PASS=your-email-password
 
-POST || http://localhost:3000/api/categories/
-por query: nameCategory=  --> categoria a cambiar
-por body: {name: categorianueva} 
+# Cache
+CACHE_TTL=300
+```
 
+## 📁 بنية المشروع
 
+```
+e-commercePF/
+├── src/
+│   ├── app.js                 # إعداد Express application
+│   ├── server.js              # نقطة دخول الخادم
+│   ├── config/                # إعدادات التطبيق
+│   ├── controllers/           # Controllers للتعامل مع الطلبات
+│   ├── domain/                # كيانات قاعدة البيانات (Schemas)
+│   ├── infrastructure/        # البنية التحتية (DB, Email, Payment)
+│   ├── middlewares/           # Middlewares (Auth, Validation, Error)
+│   ├── repositories/          # Repositories للوصول للبيانات
+│   ├── routes/                # تعريف المسارات
+│   ├── services/              # Business logic
+│   └── utils/                 # وظائف مساعدة
+├── test/                      # ملفات الاختبار
+├── .env                       # متغيرات البيئة
+├── .gitignore
+├── package.json
+└── README.md
+```
 
+## 🌐 واجهات برمجة التطبيقات
 
-    USER - CREATE || METHOD: POST || URL: http://localhost:3000/api/auth/signup
-Body should be like this: {
-    username: ""
-    name: ""
-    password: ""
-    }
+### المصادقة (Authentication)
 
+#### تسجيل مستخدم جديد
+```http
+POST /api/auth/signup
+Content-Type: application/json
 
-http://localhost:3000/api/auth/googlelogin
-
-
-
-    USER - LOGIN  METHOD: POST || URL: http://localhost:3000/api/auth/signin
-Body should be like this: {
-    u"sername: ""
-    password: "
-    }
-
-    USER - GET ALL: 
-     GET || http://localhost:3000/api/users
-
-    USER - FIND BY ID:
-     GET || http://localhost:3000/api/users/:id
-
-    USER - DELETE 
-     DELETE || http://localhost:3000/api/users/delete/:id
-
-    USER - UPDATE
-     PUT || http://localhost:3000/api/users/update/:id   
-     (enviar por body el nuevo rol que le quiero dar al usuario  ej:{"role": "admin"})
-
-
-FILTROS 
-
-    FILTROS UNIDOS CON EL PAGINADO
-// GET || http://localhost:3000/api/products/forPage
-(especificar si o si por query la pagina que se quiere mostrar y si se quiere aplicar un filtro agregarlo tambien por query, se pueden aplicar todos juntos)
-
-REVIEWS
-
-GET || http://localhost:3000/api/products/id/:id
-(la misma ruta para obtener el detalle del producto),
-se le envía: el id por params( como actualmente está), con esto ya muestra los reviews del producto actual.
-
-
-
-// POST || http://localhost:3000/api/review/create
-para crear un comentario. 
-se envia por body:
 {
-	"rating": number, (controlar la cantidad min y max permitida, lo decimales, etc)
-	"description": String  ( controlar la cantidad maxima de caracteres.)
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "password123"
 }
-por query:
-userId =(el id del usuario)  si esta registrado
-productoid( el id del producto) el mismo id del producto detail
-responde con json
+```
+
+#### تسجيل الدخول
+```http
+POST /api/auth/signin
+Content-Type: application/json
+
 {
-    message:' ', // si se hizo o no el comentario 
-    status: 
+  "email": "john@example.com",
+  "password": "password123"
 }
+```
 
-/* NEWSLETTER ROUTES  */
-// GET || http://localhost:3000/api/users/newsletter/getEmails  
-get all emails suscribed to our newsletter.
--> email's array
+#### تسجيل الدخول عبر Google
+```http
+POST /api/auth/googlelogin
+Content-Type: application/json
 
-// GET || http://localhost:3000/api/users/newsletter/getNewsLetter 
-get all newsletters sent to users suscribed to
---> res.data = { title: '', content: '', date: datexd, emails, _id}
+{
+  "tokenId": "google-token-id"
+}
+```
 
-// PUT || http://localhost:3000/api/users/suscribe 
-SEND ---> body = { newsLetter: true || false } && config = { headers: { Authorization: 'Bearer '+ token } }
+### المنتجات (Products)
 
-// POST || http://localhost:3000/api/users/sendNewsletter 
-SEND ---> body = { title: "", content: "" } 
+#### الحصول على جميع المنتجات
+```http
+GET /api/products
+```
+
+#### الحصول على منتج بالمعرف
+```http
+GET /api/products/id/:id
+```
+
+#### البحث عن منتج بالاسم
+```http
+GET /api/products/name/:name
+```
+
+#### الحصول على المنتجات مع الترقيم
+```http
+GET /api/products/forPage?page=1&limit=10
+```
+
+#### إنشاء منتج جديد (يتطلب مصادقة)
+```http
+POST /api/products/create
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "sku": "TS0001",
+  "name": "T-Shirt",
+  "description": "Cotton t-shirt",
+  "price": 29.99,
+  "quantity": 100,
+  "isOnStock": true,
+  "img": ["image-url-1", "image-url-2"],
+  "category": ["clothing", "t-shirts"],
+  "brand": "Nike"
+}
+```
+
+#### تحديث منتج (يتطلب مصادقة)
+```http
+PUT /api/products/update/:id
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "price": 34.99,
+  "quantity": 50
+}
+```
+
+#### حذف منتج (يتطلب مصادقة)
+```http
+DELETE /api/products/delete/:id
+Authorization: Bearer <token>
+```
+
+### الفئات (Categories)
+
+#### الحصول على جميع الفئات
+```http
+GET /api/categories
+```
+
+#### الحصول على فئة بالاسم
+```http
+GET /api/categories/:name
+```
+
+#### إنشاء فئة جديدة (يتطلب مصادقة)
+```http
+POST /api/categories/create
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "name": "Electronics",
+  "description": "Electronic devices"
+}
+```
+
+#### حذف فئة (يتطلب مصادقة)
+```http
+DELETE /api/categories/delete/:name
+Authorization: Bearer <token>
+```
+
+### الطلبات (Orders)
+
+#### إنشاء طلب جديد (يتطلب مصادقة)
+```http
+POST /api/orders/create
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "products": [
+    {
+      "productId": "product-id",
+      "quantity": 2,
+      "price": 29.99,
+      "name": "T-Shirt"
+    }
+  ],
+  "totalAmount": 59.98,
+  "shippingAddress": {
+    "street": "123 Main St",
+    "city": "New York",
+    "country": "USA",
+    "postalCode": "10001"
+  }
+}
+```
+
+#### الحصول على طلبات المستخدم (يتطلب مصادقة)
+```http
+GET /api/orders/user
+Authorization: Bearer <token>
+```
+
+#### تحديث حالة الطلب (يتطلب مصادقة admin)
+```http
+PUT /api/orders/:id/status
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "status": "shipped"
+}
+```
+
+### التقييمات (Reviews)
+
+#### إنشاء تقييم (يتطلب مصادقة)
+```http
+POST /api/review/create
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "rating": 5,
+  "description": "Great product!"
+}
+```
+
+#### الحصول على تقييمات منتج
+```http
+GET /api/products/id/:id
+```
+
+### المستخدمين (Users)
+
+#### الحصول على جميع المستخدمين (يتطلب مصادقة admin)
+```http
+GET /api/users
+Authorization: Bearer <token>
+```
+
+#### الحصول على مستخدم بالمعرف (يتطلب مصادقة)
+```http
+GET /api/users/:id
+Authorization: Bearer <token>
+```
+
+#### تحديث دور المستخدم (يتطلب مصادقة admin)
+```http
+PUT /api/users/update/:id
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "role": "admin"
+}
+```
+
+#### حذف مستخدم (يتطلب مصادقة admin)
+```http
+DELETE /api/users/delete/:id
+Authorization: Bearer <token>
+```
+
+### النشرة البريدية (Newsletter)
+
+#### الاشتراك/إلغاء الاشتراك (يتطلب مصادقة)
+```http
+PUT /api/users/suscribe
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "newsLetter": true
+}
+```
+
+#### إرسال نشرة بريدية (يتطلب مصادقة admin)
+```http
+POST /api/users/sendNewsletter
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "title": "New Arrivals",
+  "content": "Check out our new products!"
+}
+```
+
+## 🔒 الأمان
+
+يتميز المشروع بتدابير أمان متعددة:
+
+- **Helmet**: حماية HTTP headers
+- **CORS**: تكوين Cross-Origin Resource Sharing
+- **Rate Limiting**: الحد من الطلبات لمنع الهجمات
+- **JWT Authentication**: مصادقة قائمة على الرموز
+- **Password Hashing**: تشفير كلمات المرور باستخدام bcrypt
+- **Input Validation**: التحقق من صحة المدخلات باستخدام Joi
+- **XSS Protection**: تنظيف HTML من هجمات XSS
+- **HSTS**: HTTP Strict Transport Security
+
+للمزيد من التفاصيل، راجع ملف `docs/SECURITY.md`
+
+## 🧪 الاختبارات
+
+يحتوي المشروع على مجموعة شاملة من الاختبارات:
+
+```bash
+# تشغيل جميع الاختبارات
+cd test
+./run_all_tests.sh
+
+# اختبار المصادقة
+./test_auth.sh
+
+# اختبار المنتجات
+./test_product.sh
+
+# اختبار الطلبات
+./test_order.sh
+
+# اختبار الأمان
+./test_security.sh
+```
+
+للمزيد من التفاصيل، راجع ملف `docs/TESTING.md`
+
+## 📚 التوثيق
+
+- **[توثيق قاعدة البيانات](docs/DATABASE.md)** - تفاصيل المخططات والعلاقات
+- **[توثيق البنية البرمجية](docs/ARCHITECTURE.md)** - شرح البنية والوحدات
+- **[توثيق الأمان](docs/SECURITY.md)** - تدابير الأمان والحماية
+- **[توثيق الاختبارات](docs/TESTING.md)** - دليل الاختبارات
+
+## 📝 الترخيص
+
+ISC
+
+## 👥 المساهمون
+
+- فريق التطوير
+
+## 📞 الدعم
+
+للدعم والاستفسارات، يرجى فتح issue في المستودع. 
 
 
 
