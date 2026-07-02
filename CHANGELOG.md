@@ -1,43 +1,43 @@
-# 📝 سجل التغييرات (Changelog)
+# 📝 Changelog
 
-## النسخة 1.0.0 - إعادة الهيكلة الكاملة للنظام
+## Version 1.0.0 - Complete System Restructure
 
-تم إجراء إعادة هيكلة شاملة للنظام لتحسينه، وإغلاق الثغرات الأمنية، وحل مشاكل الأداء والتكامل.
-
----
-
-## 📊 ملخص التغييرات
-
-- **الملفات المضافة**: 70 ملف جديد
-- **الملفات المحذوفة**: 0
-- **الملفات المعدلة**: 3
-- **الأسطر المضافة**: +19,687
-- **الأسطر المحذوفة**: -2,891
+A comprehensive system restructure has been performed to improve the system, close security vulnerabilities, and resolve performance and integration issues.
 
 ---
 
-## 🏗️ إعادة الهيكلة المعمارية
+## 📊 Summary of Changes
 
-### البنية الجديدة للمشروع
+- **Files Added**: 70 new files
+- **Files Deleted**: 0
+- **Files Modified**: 3
+- **Lines Added**: +19,687
+- **Lines Deleted**: -2,891
 
-تم تحويل المشروع من بنية بسيطة إلى بنية معمارية متعددة الطبقات تتبع نمط MVC مع فصل واضح للمسؤوليات:
+---
+
+## 🏗️ Architectural Restructure
+
+### New Project Structure
+
+The project has been transformed from a simple structure to a multi-layered architecture following the MVC pattern with clear separation of concerns:
 
 ```
 src/
-├── app.js                      # إعداد Express application
-├── server.js                   # نقطة دخول الخادم
-├── config/                     # إعدادات التطبيق
-├── controllers/               # Controllers (معالجة الطلبات)
-├── domain/                    # كيانات قاعدة البيانات (Schemas)
-├── infrastructure/            # البنية التحتية (DB, Email, Payment, Cache)
+├── app.js                      # Express application setup
+├── server.js                   # Server entry point
+├── config/                     # Application configuration
+├── controllers/               # Controllers (request handling)
+├── domain/                    # Database entities (Schemas)
+├── infrastructure/            # Infrastructure (DB, Email, Payment, Cache)
 ├── middlewares/               # Middlewares (Auth, Validation, Error)
-├── repositories/              # Repositories (الوصول للبيانات)
-├── routes/                    # تعريف المسارات
+├── repositories/              # Repositories (data access)
+├── routes/                    # Route definitions
 ├── services/                  # Business Logic
-└── utils/                     # وظائف مساعدة
+└── utils/                     # Helper functions
 ```
 
-### الطبقات المعمارية الجديدة
+### New Architectural Layers
 
 1. **Presentation Layer**: Routes, Controllers, Middlewares
 2. **Business Layer**: Services, Validation, Business Logic
@@ -46,124 +46,124 @@ src/
 
 ---
 
-## 📚 التوثيق الشامل
+## 📚 Comprehensive Documentation
 
-تم إضافة مجلد `docs/` يحتوي على توثيق شامل للنظام:
+Added a `docs/` folder containing comprehensive system documentation:
 
 ### 1. docs/ARCHITECTURE.md
-- شرح مفصل للبنية المعمارية
-- وصف الوحدات الرئيسية
-- تدفق البيانات في النظام
-- مخططات التسلسل
-- أفضل الممارسات للصيانة والتطوير
+- Detailed architectural explanation
+- Description of main modules
+- Data flow in the system
+- Sequence diagrams
+- Best practices for maintenance and development
 
 ### 2. docs/DATABASE.md
-- توثيق مخططات قاعدة البيانات
-- وصف الكيانات الستة (User, Product, Category, Order, Review, Newsletter)
-- العلاقات بين الكيانات
-- الفهارس المستخدمة
-- أمثلة الاستعلام
+- Database schema documentation
+- Description of the six entities (User, Product, Category, Order, Review, Newsletter)
+- Relationships between entities
+- Indexes used
+- Query examples
 
 ### 3. docs/SECURITY.md
-- تدابير الأمان المتعددة الطبقات
-- المصادقة والترخيص (JWT, RBAC)
-- الحماية من الهجمات (XSS, SQL/NoSQL Injection, CSRF)
-- إدارة الجلسات
-- حماية البيانات
-- التسجيل والمراقبة
+- Multi-layer security measures
+- Authentication and authorization (JWT, RBAC)
+- Attack protection (XSS, SQL/NoSQL Injection, CSRF)
+- Session management
+- Data protection
+- Logging and monitoring
 
 ### 4. docs/TESTING.md
-- دليل الاختبارات الشامل
-- أنواع الاختبارات المتاحة
-- كيفية تشغيل الاختبارات
-- استراتيجيات الاختبار
+- Comprehensive testing guide
+- Available test types
+- How to run tests
+- Testing strategies
 
 ---
 
-## 🔐 تحسينات الأمان
+## 🔐 Security Enhancements
 
-### 1. المصادقة والترخيص
-- **JWT Authentication**: نظام مصادقة قائم على الرموز
-- **Role-Based Access Control (RBAC)**: نظام تحكم في الوصول قائم على الأدوار (admin, client, moderator)
-- **Google OAuth**: دعم تسجيل الدخول عبر Google
-- **Password Hashing**: تشفير كلمات المرور باستخدام bcrypt
+### 1. Authentication and Authorization
+- **JWT Authentication**: Token-based authentication system
+- **Role-Based Access Control (RBAC)**: Role-based access control (admin, client, moderator)
+- **Google OAuth**: Support for Google login
+- **Password Hashing**: Password hashing using bcrypt
 
-### 2. الحماية من الهجمات
-- **Rate Limiting**: الحد من عدد الطلبات لمنع هجمات DDoS
-  - authLimiter: 5 طلبات كل 15 دقيقة
-  - generalLimiter: 100 طلب كل 15 دقيقة
-  - orderLimiter: 20 طلب كل 15 دقيقة
-  - adminLimiter: 30 طلب كل 15 دقيقة
-  - newsletterLimiter: 5 طلبات كل ساعة
-- **Input Validation**: التحقق من صحة المدخلات باستخدام Joi
-- **XSS Protection**: تنظيف HTML من هجمات XSS باستخدام sanitize-html
-- **NoSQL Injection Protection**: حماية من حقن NoSQL
-- **CSRF Protection**: حماية من هجمات CSRF
-- **HTTP Security Headers**: إعداد Headers الأمنية باستخدام Helmet
+### 2. Attack Protection
+- **Rate Limiting**: Request rate limiting to prevent DDoS attacks
+  - authLimiter: 5 requests per 15 minutes
+  - generalLimiter: 100 requests per 15 minutes
+  - orderLimiter: 20 requests per 15 minutes
+  - adminLimiter: 30 requests per 15 minutes
+  - newsletterLimiter: 5 requests per hour
+- **Input Validation**: Input validation using Joi
+- **XSS Protection**: HTML sanitization from XSS attacks using sanitize-html
+- **NoSQL Injection Protection**: Protection against NoSQL injection
+- **CSRF Protection**: CSRF attack protection
+- **HTTP Security Headers**: Security headers setup using Helmet
 
-### 3. إدارة الجلسات
-- استخدام JWT stateless
-- انتهاء صلاحية تلقائي للـ tokens
-- تسجيل محاولات المصادقة الفاشلة
-
----
-
-## 🧪 نظام الاختبارات الشامل
-
-تم إضافة مجلد `test/` يحتوي على اختبارات شاملة:
-
-### ملفات الاختبار
-- `test_auth.sh` - اختبار المصادقة
-- `test_category.sh` - اختبار الفئات
-- `test_config.sh` - اختبار الإعدادات
-- `test_newsletter.sh` - اختبار النشرة البريدية
-- `test_order.sh` - اختبار الطلبات
-- `test_product.sh` - اختبار المنتجات
-- `test_review.sh` - اختبار التقييمات
-- `test_security.sh` - اختبار الأمان
-- `test_user.sh` - اختبار المستخدمين
-- `api_test.sh` - اختبار API شامل
-- `run_all_tests.sh` - تشغيل جميع الاختبارات
+### 3. Session Management
+- Stateless JWT usage
+- Automatic token expiration
+- Logging failed authentication attempts
 
 ---
 
-## 📦 تحديثات المكتبات
+## 🧪 Comprehensive Testing System
 
-تم تحديث `package.json` بالمكتبات التالية:
+Added a `test/` folder containing comprehensive tests:
 
-### الأمان
-- `helmet` ^8.2.0 - حماية HTTP headers
-- `bcrypt` ^6.0.0 - تشفير كلمات المرور
+### Test Files
+- `test_auth.sh` - Authentication tests
+- `test_category.sh` - Category tests
+- `test_config.sh` - Configuration tests
+- `test_newsletter.sh` - Newsletter tests
+- `test_order.sh` - Order tests
+- `test_product.sh` - Product tests
+- `test_review.sh` - Review tests
+- `test_security.sh` - Security tests
+- `test_user.sh` - User tests
+- `api_test.sh` - Comprehensive API tests
+- `run_all_tests.sh` - Run all tests
+
+---
+
+## 📦 Library Updates
+
+Updated `package.json` with the following libraries:
+
+### Security
+- `helmet` ^8.2.0 - HTTP headers protection
+- `bcrypt` ^6.0.0 - Password hashing
 - `jsonwebtoken` ^9.0.3 - JWT authentication
-- `express-rate-limit` ^6.7.0 - الحد من الطلبات
-- `sanitize-html` ^2.17.5 - تنظيف HTML من XSS
-- `express-jwt` ^8.5.1 - التحقق من JWT
+- `express-rate-limit` ^6.7.0 - Request rate limiting
+- `sanitize-html` ^2.17.5 - HTML sanitization from XSS
+- `express-jwt` ^8.5.1 - JWT verification
 
-### الدفع والمصادقة
-- `stripe` ^8.213.0 - معالجة المدفوعات
+### Payment and Authentication
+- `stripe` ^8.213.0 - Payment processing
 - `google-auth-library` ^7.14.0 - Google OAuth
 
-### الأدوات الأخرى
-- `nodemailer` ^9.0.3 - إرسال البريد الإلكتروني
-- `morgan` ^1.10.0 - تسجيل الطلبات
-- `dotenv` 16.0.0 - إدارة متغيرات البيئة
+### Other Tools
+- `nodemailer` ^9.0.3 - Email sending
+- `morgan` ^1.10.0 - Request logging
+- `dotenv` 16.0.0 - Environment variable management
 - `cors` 2.8.5 - Cross-Origin Resource Sharing
-- `joi` ^17.9.2 - التحقق من البيانات
-- `node-cache` ^5.1.2 - التخزين المؤقت
+- `joi` ^17.9.2 - Data validation
+- `node-cache` ^5.1.2 - Caching
 
-### التطوير
-- `nodemon` ^3.1.14 - إعادة التشغيل التلقائي في التطوير
+### Development
+- `nodemon` ^3.1.14 - Auto-restart in development
 
 ---
 
-## 🔧 الملفات الجديدة
+## 🔧 New Files
 
-### نقطة الدخول والإعداد
-- `src/server.js` - نقطة بدء تشغيل التطبيق
-- `src/app.js` - إعداد Express application
-- `src/config/index.js` - مركزي للإعدادات
+### Entry Point and Setup
+- `src/server.js` - Application entry point
+- `src/app.js` - Express application setup
+- `src/config/index.js` - Centralized configuration
 
-### Controllers (7 ملفات)
+### Controllers (7 files)
 - `src/controllers/auth.controller.js`
 - `src/controllers/category.controller.js`
 - `src/controllers/newsletter.controller.js`
@@ -172,7 +172,7 @@ src/
 - `src/controllers/review.controller.js`
 - `src/controllers/user.controller.js`
 
-### Domain Entities (6 ملفات)
+### Domain Entities (6 files)
 - `src/domain/category.entity.js`
 - `src/domain/newsletter.entity.js`
 - `src/domain/order.entity.js`
@@ -180,19 +180,19 @@ src/
 - `src/domain/review.entity.js`
 - `src/domain/user.entity.js`
 
-### Infrastructure (4 ملفات)
+### Infrastructure (4 files)
 - `src/infrastructure/cache/memory.cache.js`
 - `src/infrastructure/database/connection.js`
 - `src/infrastructure/email/email.service.js`
 - `src/infrastructure/payment/stripe.service.js`
 
-### Middlewares (4 ملفات)
+### Middlewares (4 files)
 - `src/middlewares/auth.middleware.js`
 - `src/middlewares/error.middleware.js`
 - `src/middlewares/rateLimit.middleware.js`
 - `src/middlewares/validation.middleware.js`
 
-### Repositories (7 ملفات)
+### Repositories (7 files)
 - `src/repositories/base.repository.js`
 - `src/repositories/category.repository.js`
 - `src/repositories/newsletter.repository.js`
@@ -201,7 +201,7 @@ src/
 - `src/repositories/review.repository.js`
 - `src/repositories/user.repository.js`
 
-### Routes (8 ملفات)
+### Routes (8 files)
 - `src/routes/index.js`
 - `src/routes/auth.routes.js`
 - `src/routes/category.routes.js`
@@ -211,7 +211,7 @@ src/
 - `src/routes/review.routes.js`
 - `src/routes/user.routes.js`
 
-### Services (7 ملفات)
+### Services (7 files)
 - `src/services/auth.service.js`
 - `src/services/category.service.js`
 - `src/services/newsletter.service.js`
@@ -220,7 +220,7 @@ src/
 - `src/services/review.service.js`
 - `src/services/user.service.js`
 
-### Utils (4 ملفات)
+### Utils (4 files)
 - `src/utils/AppError.js`
 - `src/utils/apiResponse.js`
 - `src/utils/securityLogger.js`
@@ -228,105 +228,105 @@ src/
 
 ---
 
-## 📝 تحديث README.md
+## 📝 README.md Update
 
-تم إعادة كتابة `README.md` بشكل كامل ليحتوي على:
+Completely rewrote `README.md` to include:
 
-- وصف شامل للمشروع باللغة العربية
-- قائمة بالمميزات
-- التقنيات المستخدمة
-- المتطلبات
-- خطوات التثبيت والتشغيل
-- متغيرات البيئة المطلوبة
-- بنية المشروع
-- واجهات برمجة التطبيقات (API Endpoints)
-- تدابير الأمان
-- دليل الاختبارات
-- التوثيق الإضافي
+- Comprehensive project description in Arabic
+- Feature list
+- Technologies used
+- Requirements
+- Installation and running steps
+- Required environment variables
+- Project structure
+- API endpoints
+- Security measures
+- Testing guide
+- Additional documentation
 
 ---
 
-## 🎯 الميزات الجديدة
+## 🎯 New Features
 
-### 1. نظام المصادقة المتقدم
-- تسجيل مستخدم جديد
-- تسجيل الدخول بالبريد وكلمة المرور
-- تسجيل الدخول عبر Google OAuth
-- إعادة تعيين كلمة المرور
+### 1. Advanced Authentication System
+- New user registration
+- Email and password login
+- Google OAuth login
+- Password reset
 - JWT Token authentication
 
-### 2. إدارة المنتجات المحسنة
-- إنشاء، تحديث، حذف المنتجات
-- البحث بالاسم، SKU، الفئة، العلامة التجارية
-- الترقيم (Pagination)
-- الفلاتر المتقدمة
-- إدارة المخزون
+### 2. Enhanced Product Management
+- Create, update, delete products
+- Search by name, SKU, category, brand
+- Pagination
+- Advanced filters
+- Inventory management
 
-### 3. إدارة الطلبات
-- إنشاء الطلبات
-- معالجة الدفع عبر Stripe
-- تتبع حالة الطلب
-- تحديث حالة الطلب
-- إدارة عناوين الشحن
+### 3. Order Management
+- Create orders
+- Stripe payment processing
+- Order status tracking
+- Order status updates
+- Shipping address management
 
-### 4. نظام التقييمات
-- كتابة تقييمات للمنتجات
-- منع التقييم المتكرر لنفس المنتج
-- حساب التقييم المتوسط
-- عرض تقييمات المنتج
+### 4. Review System
+- Write product reviews
+- Prevent duplicate reviews for the same product
+- Calculate average rating
+- Display product reviews
 
-### 5. النشرة البريدية
-- الاشتراك/إلغاء الاشتراك
-- إرسال النشرات البريدية
-- إدارة المشتركين
+### 5. Newsletter
+- Subscribe/unsubscribe
+- Send newsletters
+- Manage subscribers
 
-### 6. إدارة المستخدمين
-- إدارة الأدوار (admin, client, moderator)
-- تحديث بيانات المستخدم
-- حذف المستخدمين
-- عرض جميع المستخدمين
+### 6. User Management
+- Role management (admin, client, moderator)
+- Update user data
+- Delete users
+- View all users
 
-### 7. التخزين المؤقت
-- استخدام node-cache لتحسين الأداء
-- إدارة انتهاء الصلاحية
-- تقليل الاستعلامات لقاعدة البيانات
+### 7. Caching
+- Use node-cache for performance improvement
+- Expiration management
+- Reduce database queries
 
 ---
 
-## 🔧 التحسينات التقنية
+## 🔧 Technical Improvements
 
-### 1. معالجة الأخطاء
-- معالجة أخطاء مركزية
-- رسائل خطأ موحدة
-- تسجيل الأخطاء
-- security logger
+### 1. Error Handling
+- Centralized error handling
+- Unified error messages
+- Error logging
+- Security logger
 
-### 2. التحقق من البيانات
-- التحقق على مستوى Middleware
-- التحقق على مستوى Service
-- استخدام Joi للتحقق
-- تنظيف المدخلات من XSS
+### 2. Data Validation
+- Middleware-level validation
+- Service-level validation
+- Joi validation usage
+- XSS input sanitization
 
-### 3. الأداء
-- التخزين المؤقت
-- الفهارس في قاعدة البيانات
-- تحسين الاستعلامات
+### 3. Performance
+- Caching
+- Database indexes
+- Query optimization
 - Rate limiting
 
-### 4. قابلية التوسع
-- بنية معمارية قابلة للتوسع
-- فصل واضح للمسؤوليات
-- استخدام Dependency Injection
-- سهولة إضافة ميزات جديدة
+### 4. Scalability
+- Scalable architecture
+- Clear separation of concerns
+- Dependency injection usage
+- Easy feature addition
 
 ---
 
-## 📊 إحصائيات المشروع
+## 📊 Project Statistics
 
-### عدد الملفات حسب النوع
+### File Count by Type
 
-| النوع | العدد |
-|-------|-------|
+| Type | Count |
+|------|-------|
 | Controllers | 7 |
 | Services | 7 |
 | Repositories | 7 |
@@ -338,43 +338,43 @@ src/
 | Tests | 11 |
 | Documentation | 4 |
 
-### الكيانات في قاعدة البيانات
+### Database Entities
 
-| الكيان | الوصف |
-|--------|-------|
-| User | المستخدمين |
-| Product | المنتجات |
-| Category | الفئات |
-| Order | الطلبات |
-| Review | التقييمات |
-| Newsletter | النشرة البريدية |
+| Entity | Description |
+|--------|-------------|
+| User | Users |
+| Product | Products |
+| Category | Categories |
+| Order | Orders |
+| Review | Reviews |
+| Newsletter | Newsletter |
 
 ---
 
-## 🚀 كيفية التشغيل
+## 🚀 How to Run
 
-### التثبيت
+### Installation
 ```bash
 npm install
 ```
 
-### إعداد متغيرات البيئة
+### Environment Setup
 ```bash
 cp .env.example .env
-# قم بتعديل ملف .env بإعداداتك
+# Edit .env file with your settings
 ```
 
-### التشغيل في وضع التطوير
+### Development Mode
 ```bash
 npm run dev
 ```
 
-### التشغيل في وضع الإنتاج
+### Production Mode
 ```bash
 npm start
 ```
 
-### تشغيل الاختبارات
+### Run Tests
 ```bash
 cd test
 ./run_all_tests.sh
@@ -382,25 +382,25 @@ cd test
 
 ---
 
-## 📝 ملاحظات مهمة
+## 📝 Important Notes
 
-1. **الأمان**: تم إضافة تدابير أمان متعددة الطبقات لحماية النظام
-2. **الأداء**: تم تحسين الأداء باستخدام التخزين المؤقت والفهارس
-3. **التوثيق**: تم إضافة توثيق شامل لجميع جوانب النظام
-4. **الاختبارات**: تم إضافة اختبارات شاملة لضمان جودة الكود
-5. **قابلية الصيانة**: تم تحسين بنية الكود لتسهيل الصيانة والتطوير
-
----
-
-## 🔗 المراجع
-
-- [توثيق البنية البرمجية](docs/ARCHITECTURE.md)
-- [توثيق قاعدة البيانات](docs/DATABASE.md)
-- [توثيق الأمان](docs/SECURITY.md)
-- [توثيق الاختبارات](docs/TESTING.md)
+1. **Security**: Added multi-layer security measures to protect the system
+2. **Performance**: Improved performance using caching and indexes
+3. **Documentation**: Added comprehensive documentation for all system aspects
+4. **Testing**: Added comprehensive tests to ensure code quality
+5. **Maintainability**: Improved code structure to facilitate maintenance and development
 
 ---
 
-**التاريخ**: يوليو 2026  
-**الإصدار**: 1.0.0  
-**نوع التغيير**: إعادة هيكلة كاملة (Major Refactor)
+## 🔗 References
+
+- [Architecture Documentation](docs/ARCHITECTURE.md)
+- [Database Documentation](docs/DATABASE.md)
+- [Security Documentation](docs/SECURITY.md)
+- [Testing Documentation](docs/TESTING.md)
+
+---
+
+**Date**: July 2026  
+**Version**: 1.0.0  
+**Change Type**: Complete Restructure (Major Refactor)
