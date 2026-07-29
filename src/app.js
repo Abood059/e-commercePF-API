@@ -44,6 +44,24 @@ app.use(cookieParser({
 app.use(morgan('dev'));
 app.use(generalLimiter);
 
+// Health check endpoint for Docker and load balancers
+app.get('/health', (req, res) => {
+    const healthcheck = {
+        uptime: process.uptime(),
+        message: 'OK',
+        timestamp: Date.now(),
+        environment: process.env.NODE_ENV || 'development',
+        port: process.env.PORT || 3000
+    };
+    
+    try {
+        res.status(200).json(healthcheck);
+    } catch (e) {
+        healthcheck.message = e.message;
+        res.status(503).json(healthcheck);
+    }
+});
+
 app.use('/api', routes);
 
 app.use(notFound);
